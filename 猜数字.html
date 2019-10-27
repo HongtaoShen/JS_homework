@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>猜数</title>
+</head>
+<body>
+    <h1>You have ten chances to play!</h1>
+    <input type="text" id="h1">
+    <input type="text" id="h2">
+    <input type="text" id="h3">
+    <input type="text" id="h4">
+    <input type="button" value="click me!" id="b1">
+    <script>
+    var a=new Array;
+    var x=new Array;
+    var count=0;
+    a[0]=parseInt(Math.random()*10);
+    a[1]=parseInt(Math.random()*10);
+    a[2]=parseInt(Math.random()*10);
+    a[3]=parseInt(Math.random()*10);
+    for(var k=0;k<4;k++)
+    {
+        console.log(a[k]);
+    }
+    document.getElementById("b1").addEventListener('click',check); 
+    function check()
+    {
+    var i=0,j=0;
+    count++;
+    x[0]=document.getElementById("h1").value;
+    x[1]=document.getElementById("h2").value;
+    x[2]=document.getElementById("h3").value;
+    x[3]=document.getElementById("h4").value; 
+        for(var k=0;k<4;k++)
+        {
+            for(var t=0;t<4;t++)
+            {
+                if(a[k]==x[t])
+                {
+                    if(k==t)
+                    {
+                        i++;
+                        break;
+                    }
+                    else
+                    {
+                        j++;
+                        break;
+                    }
+                }
+            }
+        }
+        if(i==4)
+        {
+            alert("You Win!!!");
+        }
+        else
+        {
+            alert("A"+i+"B"+j);
+        }
+    if(count==10)
+    {
+        alert("You lose!!!");
+    }
+    }
+    </script>
+</body>
+</html>
