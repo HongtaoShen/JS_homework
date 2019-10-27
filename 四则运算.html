@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>运算</title>
+    <style>
+    .w
+    {
+        border-top:rgb(117, 164, 202);
+        outline-color: slategrey;
+        outline-style: solid;
+        outline-width: 3px;
+    }
+
+    </style>
+</head>
+<body>
+    <table>
+        <tr>
+            <td><input type="text" class="w" id="i1"></td>
+            <td><p>+</p></td>
+            <td><input type="text" class="w" id="i2"></td>
+            <td><p>=</p></td>
+            <td><input type="text" class="w" id="0"></td>
+            <td><input type="button" value="click me!" id="a"></td>
+        </tr>
+        <tr>
+            <td><input type="text" class="w" id="i3"></td>
+            <td><p>-</p></td>
+            <td><input type="text" class="w" id="i4"></td>
+            <td><p>=</p></td>
+            <td><input type="text" class="w" id="1"></td>
+            <td><input type="button" value="click me!" id="b"></td>
+        </tr>
+        <tr>
+            <td><input type="text" class="w" id="i5"></td>
+            <td><p>×</p></td>
+            <td><input type="text" class="w" id="i6"></td>
+            <td><p>=</p></td>
+            <td><input type="text" class="w" id="2"></td>
+            <td><input type="button" value="click me!" id="c"></td>
+        </tr>
+        <tr>
+            <td><input type="text" class="w" id="i7"></td>
+            <td><p>÷</p></td>
+            <td><input type="text" class="w" id="i8"></td>
+            <td><p>=</p></td>
+            <td><input type="text" class="w" id="3"></td>
+            <td><input type="button" value="click me!" id="d"></td>
+        </tr>
+        <tr>
+            <td><input type="text" class="w" id="i9"></td>
+            <td><p>^</p></td>
+            <td><input type="text" class="w" id="i10"></td>
+            <td><p>=</p></td>
+            <td><input type="text" class="w" id="4"></td>
+            <td><input type="button" value="click me!" id="e"></td>
+        </tr>
+        <script>
+        document.getElementById("a").addEventListener("click",Add);
+        document.getElementById("b").addEventListener("click",Sub);
+        document.getElementById("c").addEventListener("click",Mul);
+        document.getElementById("d").addEventListener("click",Div);
+        document.getElementById("e").addEventListener("click",Pow);
+        function Add(){
+            var x=document.getElementById("i1").value;
+            var y=document.getElementById("i2").value;
+            x=Number(x);
+            y=Number(y);
+            var z=x+y;
+            document.getElementById("0").value=z;
+        }
+        function Sub(){
+            var x=document.getElementById("i3").value;
+            var y=document.getElementById("i4").value;
+            x=Number(x);
+            y=Number(y);
+            var z=x-y;
+            document.getElementById("1").value=z;
+        }
+        function Mul(){
+            var x=document.getElementById("i5").value;
+            var y=document.getElementById("i6").value;
+            x=Number(x);
+            y=Number(y);
+            var z=x*y;
+            document.getElementById("2").value=z;
+        }
+        function Div(){
+            var x=document.getElementById("i7").value;
+            var y=document.getElementById("i8").value;
+            x=Number(x);
+            y=Number(y);
+            var z=x/y;
+            document.getElementById("3").value=z;
+        }
+        function Pow(){
+            var x=document.getElementById("i9").value;
+            var y=document.getElementById("i10").value;
+            x=Number(x);
+            y=Number(y);
+            var z=Math.pow(x,y);
+            document.getElementById("4").value=z;
+        }
+        </script>
+    </table>
+</body>
+</html>
