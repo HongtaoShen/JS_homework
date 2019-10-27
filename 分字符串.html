@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>字符串</title>
+</head>
+<body>
+    <script>
+    var string="I love you";
+    var array=string.split(" ");
+    document.write("<p>分离子串</p>");
+    for(var i=0;i<array.length;i++)
+    {
+        document.write("<p>"+array[i]+"</p>");
+    }
+    var s1=string.substr(0,5);//参数：头＋长度
+    var s2=string.substring(7,10);//参数：头+尾
+    document.write("<p>传入从位置0开始到长度为5的子串"+s1+"</p>");
+    document.write("<p>传入从位置7开始到为位置10的子串"+s2+"</p>");
+    var s3=string.replace(/o/g,"i");
+    document.write("<p>把o改为i："+s3+"</p>");     
+    </script>
+</body>
+</html>
