@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>水仙花数</title>
+</head>
+<body>
+    <input type="text" id="m1">
+    <input type="button" value="检测" id="h1">
+    <script>
+    document.getElementById("h1").addEventListener("click",flower);
+    function flower()
+    {
+        var sum=0,y;
+        // var x=parseInt(document.getElementById("m1").value);
+        var x=document.getElementById("m1").value;
+        var n=x.length;
+        var z=x;
+        x=parseInt(x);
+        while(x!=0)
+        {
+            y=parseInt(x%10);
+            // console.log(Math.pow(y,3));
+            sum+=Math.pow(y,n);
+            x=parseInt(x/10);
+            console.log(sum);
+            
+        }
+        
+        if(sum==z)
+        {
+         alert(z+"是水仙花数");
+        }
+        else
+        {
+        alert(z+"不是水仙花数");
+        }
+
+    }
+        
+    </script>
+</body>
+</html>
