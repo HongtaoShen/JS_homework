@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>SJ_sky</title>
+    <style>
+          *{
+              padding: 0;
+              margin: 0;
+           }
+           .main
+           {
+               width: 1200px;
+               height: auto;
+               margin: 50px auto;
+               overflow: hidden;
+           }
+           .nav
+           {
+               width: 1200px;
+               height: 80px;
+           }
+           ul
+           {
+               list-style-type: none;
+           }
+           li
+           {
+               float:left;
+               width:25%;
+               height:80px;
+               text-align:center;
+               line-height: 80px;
+               cursor:pointer;
+           }
+           .changeColor
+           {
+               background: #ffcc00;
+               border-radius: 5px;
+           }
+           .x1
+           {
+               font-size: x-large;
+               border: 10px double;
+               border-block-color: #838082;
+               background: #FFFFFF;
+               position: absolute;
+               bottom: 45%;
+               left: 25%;
+           }
+           #b1
+           {
+               position: relative;
+               size: 30px;
+               left: 40%;
+           }
+           .banner
+           {
+              width: 1200px;
+              height: 460px;
+              overflow: hidden;
+           }
+           .banner-slide
+           {
+               width: 1200px;
+               height: 460px;
+               background-repeat:no-repeat;
+               position: absolute;
+           }
+           .slide1
+           {
+               background-image: url("img/1.jpg");
+           }
+           .slide2
+           {
+               background-image: url("img/2.jpg");
+           }
+           .slide3
+           {
+               background-image: url("img/3.jpg");
+           }
+           .slide4
+           {
+               background-image: url("img/4.jpg");
+           }
+    </style>
+</head>
+<body>
+    <div class="main" id="main">
+        <div class="nav" id="nav">
+            <h1>欢迎来到盛京航空公司！</h1>
+            <ul>
+                <li class="changeColor">金色三亚</li>
+                <li>最美山西</li>
+                <li>云南梯田</li>
+                <li>时尚江苏</li>
+            </ul>
+            <div class="banner" id="banner">
+                <a href="#">
+                    <div class="banner-slide slide1"></div>
+                </a>
+                <a href="#">
+                    <div class="banner-slide slide2"></div>
+                </a>
+                <a href="#">
+                    <div class="banner-slide slide3"></div>
+                </a>
+                <a href="#">
+                    <div class="banner-slide slide4"></div>
+                </a>
+            </div> 
+            <div class="x1" id="x1">
+             出发地点：<input type="text" value="中文/英文/拼音" >
+             <br>
+             <br>
+             出发时间：<input type="text" value="中文/英文/拼音" >
+             <br>
+             <br>
+             到达地点：<input type="text" value="中文/英文/拼音" >
+             <br>
+             <br>
+             乘客：<input type="radio" name="c1">成人
+                  <input type="radio" name="c1">学生
+             <br>
+             <br>
+             选择舱等：
+             <select>
+                    <option selected>经济舱</option>
+                    <option>商务舱</option>
+             </select>
+             <br>
+             <br>
+             <input type="button" value="submit" id="b1">
+            </div> 
+       </div>
+    </div>
+    <script>
+        var timer = null,
+        index = 0,
+        pics = document.getElementsByClassName("banner-slide"),
+        lis = document.getElementsByTagName("li");
+        function byId(id){
+            return typeof(id) == "string"?document.getElementById(id):id;
+        }
+        function slideImg(){
+            var main = byId("main");
+            var banner = byId("banner");
+            main.onmouseover = function(){
+                stopAutoPlay();
+            }
+            main.onmouseout = function(){
+                startAutoPlay();
+            }
+            main.onmouseout();
+            for(var i=0;i<pics.length;i++)
+            {
+                lis[i].id = i;
+                lis[i].onclick = function(){
+                    index = this.id;
+                    changeImg();
+                }
+            }
+        }
+        function startAutoPlay()
+        {
+            timer = setInterval(function (){
+               index++;
+               if(index>3)
+               {
+                   index = 0;
+               }
+               changeImg();
+            },1000);
+        }
+        function stopAutoPlay(){
+            if(timer){
+                clearInterval(timer);
+            }
+        }
+        function changeImg(){
+            for(var i=0;i<pics.length;i++)
+            {
+                pics[i].style.display = "none";
+                lis[i].className = "";
+            }
+            pics[index].style.display = "block";
+            lis[index].className = "changeColor";
+        }
+        slideImg();
+    </script>    
+</body>
+</html>
