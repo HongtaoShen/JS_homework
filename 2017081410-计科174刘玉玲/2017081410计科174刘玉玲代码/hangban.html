@@ -1,0 +1,150 @@
+<html>
+    <head>
+        <title>机票预定</title>
+        <style>
+            #div1{
+                font-style: italic;
+                font-size: 20px;
+                color: blue;
+            }
+            #div2{
+                color: blue;
+                background-color: pink;
+                font-size: 18px;
+            }
+            #div2 strong{
+                font-size: 10px;
+                color:red;
+            }
+            #div3{
+                font-size: 12px;
+              
+            }
+            #div4{
+                background-color: royalblue;
+            }
+            #divTop{
+                background-color: powderblue;
+            }
+
+        </style>
+
+        <script>
+            function addItem(){
+                var divTop =document.getElementById("divTop");
+                var divItem=document.createElement("div");
+
+                divItem.innerHTML="<input type='text'/> <input type='button' value='Delete' onclick='removeItem(event)'/>";
+                divTop.appendChild(divItem);
+            }
+            function removeItem(e){
+                console.log(e);
+                var item =e.target.parentNode;
+                item.parentNode.removeChild(item);
+
+            }
+            function finish() {
+                var a=document.getElementById("divTop");
+                if(a!=null){
+
+                    alert("订阅完成!")
+                }
+            }
+            // function initPage(){
+            //     passenger=[{"name":"王某某","cerficateType":"护照","cardNo":"123456789"}];
+            //     var div4=document.getElementById("div4");
+            //     for (var i = 0; i < passenger.length; i++) {
+            //         var favpeople=passenger[i];
+            //         var span=document.createElement("span");
+            //         span.className='favpeople';
+            //         span.innerText=favpeople.name;
+            //         passenger.appendChild(span);
+                    
+            //     }
+
+            //     alert("画面加载完成!");
+            // }
+        </script>
+    </head>
+
+    <body>
+        <div>
+            <img src="img/101.jpg" backgro style="visibility:visible;"/>
+        </div>
+        <div id="div1"><p >机票预定</p></div>
+        <HR style="FILTER: alpha(opacity=100,finishopacity=0,style=3)" width="100%" color=#987cb9 SIZE=3>
+        <div id="div2">
+            <p >航班信息</p>      
+        </div>
+
+        <div id="div3" style="height:60px; line-height:60px; padding-left:65px;
+            background:url(img/200.png) no-repeat left center">
+
+            <span >海南航空HU7716 &nbsp 机型：738 &nbsp&nbsp&nbsp 2019年12月12日 &nbsp 11：00 &nbsp 周水子国际机场起飞 &nbsp---&nbsp 2019年12月12日 &nbsp 14：00 &nbsp 黄花国际机场到达 &nbsp&nbsp&nbsp 2000元/成人</span>
+        </div>
+        <HR style="FILTER: alpha(opacity=100,finishopacity=0,style=3)" width="100%" color=gray SIZE=1>
+
+        <span style="font-size: 14px;"><p>总价：2000元(含税费) &nbsp&nbsp 人数：1人</p></span>
+        
+        <div id="div2">
+                <p >乘客信息 &nbsp &nbsp<strong>请准确填写乘客信息（证件号，联系方式），以免在办理登机手续时发生问题</strong> </p>   
+                  
+        </div>
+
+        <div style="font-size: 14px;">
+            在常用信息中搜索<input type="text"/> &nbsp &nbsp &nbsp 
+            <input type="checkbox"/>刘某某 &nbsp &nbsp
+            <input type="checkbox"/>李某某 &nbsp &nbsp
+            <input type="checkbox"/>张某某 &nbsp &nbsp
+            <input type="checkbox"/>王某某 &nbsp &nbsp
+            <input type="button" value="搜索" />
+        </div>
+        <HR style="FILTER: alpha(opacity=100,finishopacity=0,style=3)" width="100%" color=gray SIZE=1>
+
+        <br>
+
+        <div id="divTop">
+            <div id="div4">
+                第一位乘机人：
+            </div>
+            <div align="center">
+                    &nbsp&nbsp*购票类型：<select>
+                        <option value="成人票">成人票</option>
+                        <option value="学生票">学生票</option>
+                        <option value="儿童票">儿童票</option>
+                        </select>2000元/人(含税费)<br>
+                *姓&nbsp&nbsp&nbsp&nbsp&nbsp名：<input type="text"/><br>
+                *证件类型：<input type="text"/><br>
+                *证件号码：<input type="text"/><br>
+                <input type="button" value="删除乘客" onclick="removeItem(event)"/>
+            </div>
+        </div>
+
+        <div class="divOption" align="center">
+            <input type="button" onclick="addItem()" value="添加乘客"></input>
+        </div>
+
+
+        <div id="div2">
+                <p >联系人信息 &nbsp &nbsp<strong>请准确填写联系人信息（联系人,手机号,Email），以便我们与您联系</strong> </p>   
+                  
+        </div>
+
+        <div id="divTop">
+                <div align="center">
+                    *联系人：<input type="text"/><br>
+                    *手机号码：<input type="text"/><br>
+                    *联系电话:<input type="text"/><br>
+                    *传真号码:<input type="text"/><br>
+                    *Email：<input type="text"/><br>
+                    *联系地址：<input type="text"/>
+                </div>
+        </div>
+
+        <br>
+        <div align="center">
+                <input type="button" value="下一步" onclick="finish()"/>
+        </div>
+
+    </body>
+</html>
