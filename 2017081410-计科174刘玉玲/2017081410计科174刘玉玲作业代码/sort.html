@@ -1,0 +1,14 @@
+<html>
+    <body>
+        <p id="demo">数组排序</p>
+        <button onclick="paixu()">paixu</button>
+        <script>
+            function paixu(){
+                var number=[90,45,8,878,43,0,-7];
+                number.sort(function(a,b) {return a-b});
+                var x=document.getElementById("demo");
+                x.innerHTML=number;
+            }
+        </script>
+    </body>
+</html>

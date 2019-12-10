@@ -1,0 +1,393 @@
+<html>
+    <head>
+            <style type="text/css">
+                *{
+                     margin: 0;
+                     padding: 0;
+                     text-decoration: none;
+                     box-sizing: border-box;
+                 }
+                 #box1{
+                     position: absolute;
+                     left: 200px;
+                     top: 90px;
+                     width: 802px;
+                     height: 502px;
+                     border: 1px solid;
+                     overflow: hidden;
+                 }
+                 #btn{
+                     position: absolute;
+                     left: 200px;
+                     top: 603px;
+                 }
+                 #simple{
+                     position: absolute;
+                     left: 280px;
+                     top: 603px;
+                 }
+                 #moment{
+                     position: absolute;
+                     left: 320px;
+                     top: 603px;
+                 }
+                 #difficult{
+                     position: absolute;
+                     left: 360px;
+                     top: 603px;
+                 }
+                 #box2{
+                     position: absolute;
+                     width: 800px;
+                     height: 100px;
+                     background-color:red;
+                     text-align: center;
+                     font-size: 50px;
+                     line-height: 100px;
+                     left: 201px;
+                     top: 230px;
+                     display: none;
+                 }
+             </style>
+
+<script type="text/javascript">
+    function setCookie(key, val, day) {
+         var date = new Date();
+         date.setTime(date.getTime() + day*24*3600*1000);
+         document.cookie = key + '=' + val + ';expires=' + date.toString();
+     }
+     function getCookie(key) {
+         var cookies = document.cookie;
+         var cookieArr = cookies.split('; ');
+         for (var i=0; i<cookieArr.length; i++){
+             var arr = cookieArr[i].split('=');
+             if (arr[0] == key){
+                 return arr[1];
+             }
+         }
+     }
+     function delCookie(key) {
+         setCookie(key,'',-1);
+     }
+     window.onload = function(){
+         let box1=document.getElementById("box1");
+ 
+         //设定定时器时间，时间越短，移动速度越快
+         let interTime;
+         if (getCookie('intertime')*1>0){
+             interTime = getCookie('intertime')*1;
+         } else {
+             interTime = 70;
+         }
+         console.log(interTime);
+         //设置游戏难度
+         let difficult=document.getElementById("difficult");
+         let moment=document.getElementById("moment");
+         let simple=document.getElementById("simple");
+         difficult.onclick=function(){
+             setCookie('intertime',30,7);
+             interTime=30;
+         }
+         moment.onclick=function(){
+             setCookie('intertime',50,7);
+             interTime=50;
+         }
+         simple.onclick=function(){
+             setCookie('intertime',70,7);
+             interTime=70;
+         }
+ 
+         //画蛇头
+         let le=400;
+         let top=200;
+         // let le=Math.round((Math.random()*10+1)*20+300);
+         // let top=Math.round((Math.random()*10+1)*20+150);
+         let snakeHead=document.createElement("div");
+         snakeHead.style.width="20px";
+         snakeHead.style.height="20px";
+         snakeHead.style.position="absolute";
+         snakeHead.style.left=le+"px";
+         snakeHead.style.top=top+"px";
+         snakeHead.style.backgroundColor="blue";
+         snakeHead.style.borderRadius="50%";
+         box1.appendChild(snakeHead);
+ 
+         //画蛇尾巴
+         let arr=new Array();
+         for (let i=0;i<3;i++){
+             arr[i]=document.createElement("div");
+             arr[i].style.width="20px";
+             arr[i].style.height="20px";
+             arr[i].style.position="absolute";
+             arr[i].style.left=(le-20*(i+1))+"px";
+             arr[i].style.top=top+"px";
+             arr[i].style.backgroundColor="gray";
+             arr[i].style.borderRadius="50%";
+             box1.appendChild(arr[i]);
+         }
+ 
+         //随机出现食物
+         let food;
+         function createFood(){
+             let foodLeft=Math.round(Math.random()*760+20);
+             let foodTop=Math.round(Math.random()*460+20);
+             food=document.createElement("div");
+             food.style.width="20px";
+             food.style.height="20px";
+             food.style.position="absolute";
+             food.style.left=foodLeft+"px";
+             food.style.top=foodTop+"px";
+             food.style.backgroundColor="red";
+             food.style.borderRadius="40%";
+             box1.appendChild(food);
+         }
+         createFood();
+ 
+         //监听键盘的上下左右按键，按下就开始以一定的速度开始移动
+         let index = -1;
+         //初始化方向为向右
+         //0表示左，1表示上，2表示右，3表示下
+         let direction = 2;
+         //左37 上38 右39 下40
+         let speed=20;
+         let intervalLeft;
+         let intervalTop;
+         let intervalRight;
+         let intervalBottom;
+         document.onkeydown = function (event) {
+             //清除其他的定时器
+             clearInterval(intervalTop);
+             clearInterval(intervalRight);
+             clearInterval(intervalBottom);
+             clearInterval(intervalLeft);
+ 
+             //尾巴移动函数
+             function move(le,to){
+                 for (let j = arr.length - 1; j > 0; j--) {
+                     arr[j].style.left = arr[j - 1].style.left;
+                     arr[j].style.top = arr[j - 1].style.top;
+                 }
+                 arr[0].style.left = le + "px";
+                 arr[0].style.top = to + "px";
+             }
+             //判断游戏是否结束
+             function checkGame(){
+                 //蛇头遇到食物，食物消失，蛇尾加一
+                 //遇到食物之前记录蛇尾最后一个元素位置
+                 let tailLeft=arr[arr.length-1].offsetLeft;
+                 let tailTop=arr[arr.length-1].offsetTop;
+                 if ((food.offsetLeft-15)<=snakeHead.offsetLeft && snakeHead.offsetLeft<=(food.offsetLeft+20)
+                     && (food.offsetTop-15)<=snakeHead.offsetTop && snakeHead.offsetTop<=(food.offsetTop+20)){
+ 
+                     food.style.display="none";
+                     arr.length++;
+                     let num=arr.length-1;
+                     arr[num] = document.createElement("div");
+                     arr[num].style.width = "20px";
+                     arr[num].style.height = "20px";
+                     arr[num].style.position = "absolute";
+                     arr[num].style.left = tailLeft + "px";
+                     arr[num].style.top = tailTop + "px";
+                     arr[num].style.backgroundColor = "gray";
+                     arr[num].style.borderRadius = "50%";
+                     box1.appendChild(arr[num]);
+                     //食物消失之后，再创建一个随机的食物
+                     createFood();
+                 }
+ 
+                 // 判断是否超出边界，则游戏结束
+                 if (snakeHead.offsetLeft < -8 || snakeHead.offsetLeft>(box1.clientWidth-8)
+                     || snakeHead.offsetTop < -8 || snakeHead.offsetTop>(box1.clientHeight-8)){
+ 
+                     document.onkeydown=null;
+                     //清除其他的定时器
+                     clearInterval(intervalTop);
+                     clearInterval(intervalRight);
+                     clearInterval(intervalBottom);
+                     clearInterval(intervalLeft);
+                     document.getElementById("box2").style.display="block";
+                 }else {
+                     //跟新分数
+                     document.querySelectorAll("span")[0].innerHTML = (arr.length-3)*1;
+                     document.querySelectorAll("span")[1].innerHTML = (arr.length-3)*1;
+                 }
+ 
+                 // 蛇头碰到蛇身子，则游戏结束
+                 let flag=false;
+                 for (let j=0;j<arr.length;j++){
+                     for (let i=j;i<arr.length;i++){
+                         if (arr[i].offsetLeft<=snakeHead.offsetLeft && snakeHead.offsetLeft<(arr[i].offsetLeft+20)
+                             && arr[i].offsetTop<=snakeHead.offsetTop && snakeHead.offsetTop<(arr[i].offsetTop+20)){
+ 
+                             // console.log("蛇头碰到蛇身子，则游戏结束");
+                             flag=true;
+                             //跟新分数
+                             document.querySelectorAll("span")[0].innerHTML = (arr.length-3)*1;
+                             document.querySelectorAll("span")[1].innerHTML = (arr.length-3)*1;
+                         }
+                     }
+                 }
+                 if (flag){
+                     document.onkeydown=null;
+                     //清除其他的定时器
+                     clearInterval(intervalTop);
+                     clearInterval(intervalRight);
+                     clearInterval(intervalBottom);
+                     clearInterval(intervalLeft);
+                     document.getElementById("box2").style.display="block";
+                 }
+             }
+ 
+             event = event || window.event;
+             // alert(event.keyCode);
+             index = event.keyCode;
+ 
+             //左37/0 上38/1 右39/2 下40/3
+             if (index == 37 && (direction ==0 || direction == 1 || direction == 3)){
+                 intervalLeft=setInterval(function () {
+                     //清除其他的定时器
+                     clearInterval(intervalTop);
+                     clearInterval(intervalRight);
+                     clearInterval(intervalBottom);
+                     //记录一下蛇头的位置
+                     let snakeHeadLeft=snakeHead.offsetLeft;
+                     let snakeHeadTop=snakeHead.offsetTop;
+                     snakeHead.style.left = snakeHead.offsetLeft - speed + "px";
+                     move(snakeHeadLeft,snakeHeadTop);
+ 
+                     //判断游戏是否结束
+                     checkGame();
+                     direction = 0;
+                 },interTime);
+             } else if (index == 38 && (direction == 0 || direction == 1 || direction ==2)){
+                 intervalTop=setInterval(function () {
+                     //清除其他的定时器
+                     clearInterval(intervalLeft);
+                     clearInterval(intervalRight);
+                     clearInterval(intervalBottom);
+                     //记录一下蛇头的位置
+                     let snakeHeadLeft=snakeHead.offsetLeft;
+                     let snakeHeadTop=snakeHead.offsetTop;
+                     snakeHead.style.top = snakeHead.offsetTop - speed + "px";
+                     move(snakeHeadLeft,snakeHeadTop);
+ 
+                     //判断游戏是否结束
+                     checkGame();
+                     direction = 1;
+                 },interTime);
+             } else if (index == 39 && (direction == 1 || direction == 2 || direction ==3)){
+                 intervalRight=setInterval(function () {
+                     //清除其他的定时器
+                     clearInterval(intervalTop);
+                     clearInterval(intervalLeft);
+                     clearInterval(intervalBottom);
+                     //记录一下蛇头的位置
+                     let snakeHeadLeft=snakeHead.offsetLeft;
+                     let snakeHeadTop=snakeHead.offsetTop;
+                     snakeHead.style.left = snakeHead.offsetLeft + speed + "px";
+                     move(snakeHeadLeft,snakeHeadTop);
+ 
+                     //判断游戏是否结束
+                     checkGame();
+                     direction = 2;
+                 },interTime);
+             } else if (index == 40 && (direction == 0 || direction == 2 || direction ==3)){
+                 intervalBottom=setInterval(function () {
+                     //清除其他的定时器
+                     clearInterval(intervalTop);
+                     clearInterval(intervalRight);
+                     clearInterval(intervalLeft);
+                     //记录一下蛇头的位置
+                     let snakeHeadLeft=snakeHead.offsetLeft;
+                     let snakeHeadTop=snakeHead.offsetTop;
+                     snakeHead.style.top = snakeHead.offsetTop + speed + "px";
+                     move(snakeHeadLeft,snakeHeadTop);
+ 
+                     //判断游戏是否结束
+                     checkGame();
+                     direction = 3;
+                 },interTime);
+             } else if (index == 37 && direction ==2){
+                 //说明向左走，按了向右的按钮
+                 intervalRight=setInterval(function () {
+                     //清除其他的定时器
+                     clearInterval(intervalTop);
+                     clearInterval(intervalLeft);
+                     clearInterval(intervalBottom);
+                     //记录一下蛇头的位置
+                     let snakeHeadLeft=snakeHead.offsetLeft;
+                     let snakeHeadTop=snakeHead.offsetTop;
+                     snakeHead.style.left = snakeHead.offsetLeft + speed + "px";
+                     move(snakeHeadLeft,snakeHeadTop);
+ 
+                     //判断游戏是否结束
+                     checkGame();
+                     direction = 2;
+                 },interTime);
+             } else if (index == 38 && direction == 3){
+                 intervalBottom=setInterval(function () {
+                     //清除其他的定时器
+                     clearInterval(intervalTop);
+                     clearInterval(intervalRight);
+                     clearInterval(intervalLeft);
+                     //记录一下蛇头的位置
+                     let snakeHeadLeft=snakeHead.offsetLeft;
+                     let snakeHeadTop=snakeHead.offsetTop;
+                     snakeHead.style.top = snakeHead.offsetTop + speed + "px";
+                     move(snakeHeadLeft,snakeHeadTop);
+ 
+                     //判断游戏是否结束
+                     checkGame();
+                     direction = 3;
+                 },interTime);
+             } else if (index == 39 && direction == 0){
+                 intervalLeft=setInterval(function () {
+                     //清除其他的定时器
+                     clearInterval(intervalTop);
+                     clearInterval(intervalRight);
+                     clearInterval(intervalBottom);
+                     //记录一下蛇头的位置
+                     let snakeHeadLeft=snakeHead.offsetLeft;
+                     let snakeHeadTop=snakeHead.offsetTop;
+                     snakeHead.style.left = snakeHead.offsetLeft - speed + "px";
+                     move(snakeHeadLeft,snakeHeadTop);
+ 
+                     //判断游戏是否结束
+                     checkGame();
+                     direction = 0;
+                 },interTime);
+             } else if (index == 40 && direction == 1){
+                 intervalTop=setInterval(function () {
+                     //清除其他的定时器
+                     clearInterval(intervalLeft);
+                     clearInterval(intervalRight);
+                     clearInterval(intervalBottom);
+                     //记录一下蛇头的位置
+                     let snakeHeadLeft=snakeHead.offsetLeft;
+                     let snakeHeadTop=snakeHead.offsetTop;
+                     snakeHead.style.top = snakeHead.offsetTop - speed + "px";
+                     move(snakeHeadLeft,snakeHeadTop);
+ 
+                     //判断游戏是否结束
+                     checkGame();
+                     direction = 1;
+                 },interTime);
+             }
+         }
+     }
+ </script>
+           
+
+    </head>
+
+    <body>
+            <h2 style="margin-left: 100px">键盘操作</h2>
+            <h2 style="margin-left: 710px; margin-top: -29px">已得分：<span>0</span>分</h2>
+            <div id="box1"></div>
+            <button id="btn"><a href="snakes.html">New Game</a></button>
+            <button id="difficult">困难</button>
+            <button id="moment">一般</button>
+            <button id="simple">简单</button>
+            <div id="box2">Game Over!！ 得分：<span>0</span>分</div>  
+    </body>
+</html>

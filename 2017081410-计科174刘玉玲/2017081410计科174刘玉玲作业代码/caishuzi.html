@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>猜数字</title>
+        <script>
+            var arr = [0,0,0,0];
+            var count = 0, right = 0;
+            function createData(){
+                count = 0;
+                document.getElementById('calNum').innerHTML = '';
+                document.getElementById('result').innerHTML = '';
+                    for(var i=0;i<4;i++){
+                        arr[i] = parseInt(Math.random()*10,10);
+                    }
+        //下面是产生的随机数，可以打开让他显示，以便于进行测试
+        //document.getElementById('beginData').innerHTML = arr[0]+","+arr[1]+","+arr[2]+","+arr[3];
+    }
+    
+    function startCal(){
+        if(count >= 10)return;
+        right = 0;
+        var data1 = document.getElementById('data1').value;
+        var data2 = document.getElementById('data2').value;
+        var data3 = document.getElementById('data3').value;
+        var data4 = document.getElementById('data4').value;
+        var msg = "";
+        if(data1 == arr[0]){
+            right++;
+        }
+        if(data2 == arr[1]){
+            right++;
+        }
+        if(data3 == arr[2]){
+            right++;
+        }
+        if(data4 == arr[3]){
+            right++;
+        }
+        count++;
+        document.getElementById('calNum').innerHTML = count;
+        document.getElementById('result').innerHTML = "正确："+right+"个；错误："+(4-right)+"个";
+    }
+ 
+    function IsDigit() {
+        if ((event.keyCode != 46) && (event.keyCode != 13)){
+            return ((event.keyCode >= 48) && (event.keyCode <= 57));
+        } else if (event.keyCode == 46){
+            return ((event.keyCode >= 48) && (event.keyCode <= 57));
+        }else{
+            return  (event.keyCode);
+        }
+    }
+ 
+    function IsDigitUp()  {
+        var arg0 = arguments[0];   
+        var NumberRegExp = new RegExp("^\\d+$","g");    
+        var myRegExp = new RegExp("[^0-9]+");
+        if (NumberRegExp.test(arg0.value) == false){
+            arg0.value = arg0.value.replace(myRegExp, '');
+        }
+    }
+    </script>
+    </head>
+
+    <body>
+        <center>请输入四个整数（0-9）</br> 
+         
+        <input type="text" id="data1" style="width:40px;" maxlength="1"  onKeyPress="event.returnValue=IsDigit();" onkeyup="IsDigitUp(this);"/>
+        <input type="text" id="data2" style="width:40px;" maxlength="1"  onKeyPress="event.returnValue=IsDigit();" onkeyup="IsDigitUp(this);"/>
+        <input type="text" id="data3" style="width:40px;" maxlength="1"  onKeyPress="event.returnValue=IsDigit();" onkeyup="IsDigitUp(this);"/>
+        <input type="text" id="data4" style="width:40px;" maxlength="1"  onKeyPress="event.returnValue=IsDigit();" onkeyup="IsDigitUp(this);"/>
+        </br></br>
+        <input type="button" onclick="startCal()" value="确认"/>
+        </br>
+        猜的次数为：<span id="calNum"></span></br>
+        猜测结果是：<span id="result"></span></br>
+        </center>
+    </body>
+</html>

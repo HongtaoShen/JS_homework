@@ -1,0 +1,25 @@
+<html>
+    <body>
+        <p>计算水仙花数</p>
+        数字:<input type="number" id="number1"><br>
+        <button onclick="shuixian()">运算</button>
+
+        <script>
+            function shuixian(){
+                number1=parseInt(document.getElementById("number1").value);
+                if(number1>=100 && number1 <=999){
+                    var a=parseInt(number1/100);
+                    var b=parseInt(number1%100/10);
+                    var c=parseInt(number1%10);
+                    if(number1==Math.pow(a,3)+Math.pow(b,3)+Math.pow(c,3)){
+                        alert("是水仙花数");
+                    }else{
+                        alert("不是水仙花数");
+                    }
+                }else{
+                    alert("输入不合法！");
+                }
+            }
+        </script>
+    </body>
+</html>
